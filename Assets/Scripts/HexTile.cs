@@ -60,6 +60,14 @@ public class HexTile : MonoBehaviour
                 
             }
 
+            if (Input.GetMouseButton(1) && hexGridScript.gridArray[x, y] != 2 && hexGridScript.gridArray[x, y] != 3 && !StartNodeDraggingScript.draggingMouse && !EndNodeDraggingScript.draggingMouse)
+            {
+
+                hexGridScript.SetValue(x, y, 0);
+                gameObject.GetComponent<SpriteRenderer>().color = Color.white; 
+                
+            }
+
         }
 
 

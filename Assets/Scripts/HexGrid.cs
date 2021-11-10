@@ -82,9 +82,8 @@ public class HexGrid : MonoBehaviour
                 int checkX = node.gridX + x;
                 int checkY = node.gridY + y;
 
-                if((checkY % 2 != 0 && x == 1 && y == 1) || (checkY % 2 != 0 && x == 1 && y == -1) || (checkY % 2 == 0 && x == -1 && y == 1))
+                if((checkY % 2 != 0 && x == 1 && y == 1) || (checkY % 2 != 0 && x == 1 && y == -1) || (checkY % 2 == 0 && x == -1 && y == 1) || (checkY % 2 == 0 && x == -1 && y == -1))
                 {
-                    Debug.Log(checkX + " " + checkY);
                     continue;
                 }
 

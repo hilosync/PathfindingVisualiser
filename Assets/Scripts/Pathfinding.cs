@@ -1,9 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class Pathfinding : MonoBehaviour
 {
+    public Button Visualise, Reset;
+
+    bool startButtonPressed = false;
+
+
     Node targetNode;
     Node startNode;
     GameObject HexTile;
@@ -18,8 +26,14 @@ public class Pathfinding : MonoBehaviour
     GameObject EndNode;
     private DragEndNode endNodeScript;
 
+    Scene scene;
+
     private void Awake() 
     {
+        Visualise.onClick.AddListener(StartButtonPressed);
+        Reset.onClick.AddListener(ResetGame);
+        scene = SceneManager.GetActiveScene();
+
         StartNode = GameObject.Find("StartNode");
         startNodeScript = StartNode.GetComponent<DragStartNode>();
 
@@ -33,7 +47,8 @@ public class Pathfinding : MonoBehaviour
     private void Update() 
     {
 
-        if (Input.GetKeyUp("s"))
+        if (startButtonPressed)
+        {
             for (int x = 0; x < HexGridScript.width; x++)
             {
                 for (int y = 0; y < HexGridScript.height; y++)
@@ -47,10 +62,32 @@ public class Pathfinding : MonoBehaviour
                     {
                         targetNode = HexGridScript.nodeGrid[x,y];
                     }
+
+                    HexTile = GameObject.Find(x.ToString() + " " + y.ToString());
+                    SpriteRenderer tileColour = HexTile.GetComponent<SpriteRenderer>();
+                    if (tileColour.color == Color.black)
+                        continue;
+                    tileColour.color = Color.white;
                 }
             }
+            startButtonPressed = false;
             FindPath(startNode, targetNode);
+        }
     }
+
+    void StartButtonPressed()
+    {
+        startButtonPressed = true;
+    }
+
+    void ResetGame()
+    {
+        SceneManager.LoadScene(scene.name);
+    }
+
+
+
+
     void FindPath(Node startNode, Node endNode)
     {
         List<Node> openSet = new List<Node>();
@@ -86,6 +123,13 @@ public class Pathfinding : MonoBehaviour
                     continue;
                 }
 
+                HexTile = GameObject.Find(neighbour.hexTileCorrespondant.x.ToString() + " " + neighbour.hexTileCorrespondant.y.ToString());
+                SpriteRenderer tileColour = HexTile.GetComponent<SpriteRenderer>();
+                tileColour.color = new Color(0.6784f,0.8471f,0.902f,1f);
+            
+
+
+
                 int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode,neighbour);
 
                 if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
@@ -97,6 +141,9 @@ public class Pathfinding : MonoBehaviour
                     if(!openSet.Contains(neighbour))
                     {
                         openSet.Add(neighbour);
+                        HexTile = GameObject.Find(neighbour.hexTileCorrespondant.x.ToString() + " " + neighbour.hexTileCorrespondant.y.ToString());
+                        tileColour = HexTile.GetComponent<SpriteRenderer>();
+                        tileColour.DOColor(new Color(0.247f,0f,0f,1f),2);
                     }
                 }
             }
