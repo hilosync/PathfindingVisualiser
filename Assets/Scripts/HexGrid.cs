@@ -17,7 +17,7 @@ public class HexGrid : MonoBehaviour
     public float tileXOffset = 2f;
     public float tileYOffset = 1.765f;
     public int[,] gridArray;
-    public TextMesh[,] debugTextArray;
+    //public TextMesh[,] debugTextArray; Commented out the debug text that would display over the tiles
 
     public Pathfinding PathfindingScript;
 
@@ -37,7 +37,7 @@ public class HexGrid : MonoBehaviour
         nodeGrid = new Node[width,height];
 
         gridArray = new int[width,height];
-        debugTextArray = new TextMesh[width,height];
+        //debugTextArray = new TextMesh[width,height];
 
         gridArray[5, 4] = 2;
         gridArray[15, 4] = 3;
@@ -51,13 +51,13 @@ public class HexGrid : MonoBehaviour
                 if (y % 2 == 0)
                 {
                     TempObj.transform.position = new Vector3(x * tileXOffset, y * tileYOffset, 0);
-                    debugTextArray[x, y] = UtilsClass.CreateWorldText(gridArray[x,y].ToString(), null, GetWorldPosition(TempObj.transform.position.x,TempObj.transform.position.y), 12, Color.magenta, TextAnchor.MiddleCenter);
+                    //debugTextArray[x, y] = UtilsClass.CreateWorldText(gridArray[x,y].ToString(), null, GetWorldPosition(TempObj.transform.position.x,TempObj.transform.position.y), 12, Color.magenta, TextAnchor.MiddleCenter);
                 }
 
                 else 
                 {
                     TempObj.transform.position = new Vector3(x * tileXOffset + tileXOffset / 2, y * tileYOffset, 0);
-                    debugTextArray[x, y] = UtilsClass.CreateWorldText(gridArray[x,y].ToString(), null, GetWorldPosition(TempObj.transform.position.x,TempObj.transform.position.y), 12, Color.magenta, TextAnchor.MiddleCenter);
+                    //debugTextArray[x, y] = UtilsClass.CreateWorldText(gridArray[x,y].ToString(), null, GetWorldPosition(TempObj.transform.position.x,TempObj.transform.position.y), 12, Color.magenta, TextAnchor.MiddleCenter);
                 }
                 SetTileInfo(TempObj, x, y);
                 nodeGrid[x,y] = new Node(gridArray[x,y], new Vector2(x,y));
@@ -114,9 +114,9 @@ public class HexGrid : MonoBehaviour
         if (value == 2)
         {
             gridArray[startNodePreviousX, startNodePreviousY] = 0;
-            debugTextArray[startNodePreviousX, startNodePreviousY].text = gridArray[startNodePreviousX, startNodePreviousY].ToString();  
+            //debugTextArray[startNodePreviousX, startNodePreviousY].text = gridArray[startNodePreviousX, startNodePreviousY].ToString();  
             gridArray[x, y] = value;
-            debugTextArray[x, y].text = gridArray[x, y].ToString();
+            //debugTextArray[x, y].text = gridArray[x, y].ToString();
             startNodePreviousX = x;
             startNodePreviousY = y;
             nodeGrid[x,y] = new Node(2, new Vector2(x,y));
@@ -125,9 +125,9 @@ public class HexGrid : MonoBehaviour
         if (value == 3)
         {
             gridArray[endNodePreviousX, endNodePreviousY] = 0;
-            debugTextArray[endNodePreviousX, endNodePreviousY].text = gridArray[endNodePreviousX, endNodePreviousY].ToString();
+            //debugTextArray[endNodePreviousX, endNodePreviousY].text = gridArray[endNodePreviousX, endNodePreviousY].ToString();
             gridArray[x, y] = value;
-            debugTextArray[x, y].text = gridArray[x, y].ToString();
+            //debugTextArray[x, y].text = gridArray[x, y].ToString();
             endNodePreviousX = x;
             endNodePreviousY = y;
             nodeGrid[x,y] = new Node(3, new Vector2(x,y));
@@ -135,7 +135,7 @@ public class HexGrid : MonoBehaviour
         else
         {
             gridArray[x, y] = value;
-            debugTextArray[x, y].text = gridArray[x, y].ToString();
+            //debugTextArray[x, y].text = gridArray[x, y].ToString();
             nodeGrid[x,y] = new Node(value, new Vector2(x,y));
         }
     }

@@ -11,6 +11,8 @@ public class Pathfinding : MonoBehaviour
 
     bool startButtonPressed = false;
 
+    float timeOrder = 0.2f;
+
 
     Node targetNode;
     Node startNode;
@@ -125,9 +127,6 @@ public class Pathfinding : MonoBehaviour
 
                 HexTile = GameObject.Find(neighbour.hexTileCorrespondant.x.ToString() + " " + neighbour.hexTileCorrespondant.y.ToString());
                 SpriteRenderer tileColour = HexTile.GetComponent<SpriteRenderer>();
-                tileColour.color = new Color(0.6784f,0.8471f,0.902f,1f);
-            
-
 
 
                 int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode,neighbour);
@@ -143,12 +142,19 @@ public class Pathfinding : MonoBehaviour
                         openSet.Add(neighbour);
                         HexTile = GameObject.Find(neighbour.hexTileCorrespondant.x.ToString() + " " + neighbour.hexTileCorrespondant.y.ToString());
                         tileColour = HexTile.GetComponent<SpriteRenderer>();
-                        tileColour.DOColor(new Color(0.247f,0f,0f,1f),2);
+                        StartCoroutine(TileColourChanger(tileColour, new Color(0.247f,0f,0f,1f), timeOrder));
+                        timeOrder = timeOrder + 0.1f;
                     }
                 }
             }
         }
 
+    }
+
+    IEnumerator TileColourChanger(SpriteRenderer tile, Color colour, float timeOrder)
+    {
+        yield return new WaitForSeconds(timeOrder);
+        tile.DOColor(colour,0.5f);
     }
 
     void RetracePath (Node startNode, Node endNode)
@@ -168,7 +174,8 @@ public class Pathfinding : MonoBehaviour
             {
                 HexTile = GameObject.Find(n.hexTileCorrespondant.x.ToString() + " " + n.hexTileCorrespondant.y.ToString());
                 tileColourComponent = HexTile.GetComponent<SpriteRenderer>();
-                tileColourComponent.color = Color.blue;
+                StartCoroutine(TileColourChanger(tileColourComponent, Color.blue, timeOrder));
+                timeOrder = timeOrder + 0.1f;
             }
         }
     }
