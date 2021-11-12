@@ -142,7 +142,7 @@ public class Pathfinding : MonoBehaviour
                         openSet.Add(neighbour);
                         HexTile = GameObject.Find(neighbour.hexTileCorrespondant.x.ToString() + " " + neighbour.hexTileCorrespondant.y.ToString());
                         tileColour = HexTile.GetComponent<SpriteRenderer>();
-                        StartCoroutine(TileColourChanger(tileColour, new Color(0.247f,0f,0f,1f), timeOrder));
+                        StartCoroutine(TileColourChanger(tileColour, new Color(0.247f,0f,0f,0.5f), timeOrder));
                         timeOrder = timeOrder + 0.1f;
                     }
                 }
