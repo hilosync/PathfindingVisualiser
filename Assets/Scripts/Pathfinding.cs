@@ -13,6 +13,10 @@ public class Pathfinding : MonoBehaviour
 
     float timeOrder = 0.2f;
 
+    Color currentNodeColour = new Color(0.227f,0.686f,0.878f,1f);
+    Color neighbourTileColour = new Color(0.204f, 0.98f, 0.847f, 1f);
+    Color pathTileColour = new Color(0.204f, 0.392f, 0.98f, 1f);
+
 
     Node targetNode;
     Node startNode;
@@ -108,6 +112,11 @@ public class Pathfinding : MonoBehaviour
                     currentNode = openSet[i];
                 } 
             }
+            HexTile = GameObject.Find(currentNode.hexTileCorrespondant.x.ToString() + " " + currentNode.hexTileCorrespondant.y.ToString());
+            SpriteRenderer tileColour = HexTile.GetComponent<SpriteRenderer>();
+
+            StartCoroutine(TileColourChanger(tileColour, currentNodeColour, timeOrder));
+            timeOrder = timeOrder + 0.1f;
             
             openSet.Remove(currentNode);
             closedSet.Add(currentNode);
@@ -126,7 +135,7 @@ public class Pathfinding : MonoBehaviour
                 }
 
                 HexTile = GameObject.Find(neighbour.hexTileCorrespondant.x.ToString() + " " + neighbour.hexTileCorrespondant.y.ToString());
-                SpriteRenderer tileColour = HexTile.GetComponent<SpriteRenderer>();
+                tileColour = HexTile.GetComponent<SpriteRenderer>();
 
 
                 int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode,neighbour);
@@ -142,7 +151,7 @@ public class Pathfinding : MonoBehaviour
                         openSet.Add(neighbour);
                         HexTile = GameObject.Find(neighbour.hexTileCorrespondant.x.ToString() + " " + neighbour.hexTileCorrespondant.y.ToString());
                         tileColour = HexTile.GetComponent<SpriteRenderer>();
-                        StartCoroutine(TileColourChanger(tileColour, new Color(0.247f,0f,0f,0.5f), timeOrder));
+                        StartCoroutine(TileColourChanger(tileColour, neighbourTileColour, timeOrder));
                         timeOrder = timeOrder + 0.1f;
                     }
                 }
@@ -174,7 +183,7 @@ public class Pathfinding : MonoBehaviour
             {
                 HexTile = GameObject.Find(n.hexTileCorrespondant.x.ToString() + " " + n.hexTileCorrespondant.y.ToString());
                 tileColourComponent = HexTile.GetComponent<SpriteRenderer>();
-                StartCoroutine(TileColourChanger(tileColourComponent, Color.blue, timeOrder));
+                StartCoroutine(TileColourChanger(tileColourComponent, pathTileColour, timeOrder));
                 timeOrder = timeOrder + 0.1f;
             }
         }

@@ -17,7 +17,7 @@ public class DragStartNode : MonoBehaviour
     }
     private void Start() 
     {
-        startingNode = GameObject.Find("5 4");
+        startingNode = GameObject.Find("8 6");
         latestTileSnappedOnStart = startingNode.transform.position;
     }
 

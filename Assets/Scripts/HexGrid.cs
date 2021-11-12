@@ -5,11 +5,11 @@ using CodeMonkey.Utils;
 
 public class HexGrid : MonoBehaviour
 {
-    private int startNodePreviousX = 5;
-    private int startNodePreviousY = 4;
+    private int startNodePreviousX = 8;
+    private int startNodePreviousY = 6;
 
-    private int endNodePreviousX = 15;
-    private int endNodePreviousY = 4;
+    private int endNodePreviousX = 19;
+    private int endNodePreviousY = 6;
     public GameObject hexTilePrefab;
     public int width;
     public int height;
@@ -39,8 +39,8 @@ public class HexGrid : MonoBehaviour
         gridArray = new int[width,height];
         //debugTextArray = new TextMesh[width,height];
 
-        gridArray[5, 4] = 2;
-        gridArray[15, 4] = 3;
+        gridArray[startNodePreviousX, startNodePreviousY] = 2;
+        gridArray[endNodePreviousX, endNodePreviousY] = 3;
 
         for (int x = 0; x < gridArray.GetLength(0); x++) 
         {
