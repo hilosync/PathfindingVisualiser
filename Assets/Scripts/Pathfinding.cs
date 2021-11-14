@@ -13,9 +13,11 @@ public class Pathfinding : MonoBehaviour
 
     float timeOrder = 0.2f;
 
-    Color currentNodeColour = new Color(0.227f,0.686f,0.878f,1f);
-    Color neighbourTileColour = new Color(0.204f, 0.98f, 0.847f, 1f);
-    Color pathTileColour = new Color(0.204f, 0.392f, 0.98f, 1f);
+    Color currentNodeColour = new Color(0.831f,0.008f,0.91f,1f);
+    Color dissipatedNodeColour = new Color(0.61f,0.008f,0.949f,1f);
+    Color pathTileColour = new Color(0.098f, 0.008f, 0.949f, 1f);
+
+    //Color neighbourTileColour = new Color(0.6f, 0.6f, 0.6f, 1f); Commented out code that changes neighbour nodes colours as it might look a bit better this way
 
 
     Node targetNode;
@@ -69,6 +71,7 @@ public class Pathfinding : MonoBehaviour
                         targetNode = HexGridScript.nodeGrid[x,y];
                     }
 
+                    timeOrder = 0.2f;
                     HexTile = GameObject.Find(x.ToString() + " " + y.ToString());
                     SpriteRenderer tileColour = HexTile.GetComponent<SpriteRenderer>();
                     if (tileColour.color == Color.black)
@@ -116,7 +119,10 @@ public class Pathfinding : MonoBehaviour
             SpriteRenderer tileColour = HexTile.GetComponent<SpriteRenderer>();
 
             StartCoroutine(TileColourChanger(tileColour, currentNodeColour, timeOrder));
-            timeOrder = timeOrder + 0.1f;
+            timeOrder = timeOrder + 0.05f;
+
+            StartCoroutine(TileColourChanger(tileColour, dissipatedNodeColour, timeOrder));
+            timeOrder = timeOrder + 0.06f;
             
             openSet.Remove(currentNode);
             closedSet.Add(currentNode);
@@ -134,8 +140,8 @@ public class Pathfinding : MonoBehaviour
                     continue;
                 }
 
-                HexTile = GameObject.Find(neighbour.hexTileCorrespondant.x.ToString() + " " + neighbour.hexTileCorrespondant.y.ToString());
-                tileColour = HexTile.GetComponent<SpriteRenderer>();
+                //HexTile = GameObject.Find(neighbour.hexTileCorrespondant.x.ToString() + " " + neighbour.hexTileCorrespondant.y.ToString());
+                //tileColour = HexTile.GetComponent<SpriteRenderer>();
 
 
                 int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode,neighbour);
@@ -150,9 +156,9 @@ public class Pathfinding : MonoBehaviour
                     {
                         openSet.Add(neighbour);
                         HexTile = GameObject.Find(neighbour.hexTileCorrespondant.x.ToString() + " " + neighbour.hexTileCorrespondant.y.ToString());
-                        tileColour = HexTile.GetComponent<SpriteRenderer>();
-                        StartCoroutine(TileColourChanger(tileColour, neighbourTileColour, timeOrder));
-                        timeOrder = timeOrder + 0.1f;
+                        //tileColour = HexTile.GetComponent<SpriteRenderer>();
+                        //StartCoroutine(TileColourChanger(tileColour, neighbourTileColour, timeOrder));
+                        //timeOrder = timeOrder + 0.05f;
                     }
                 }
             }
@@ -163,7 +169,9 @@ public class Pathfinding : MonoBehaviour
     IEnumerator TileColourChanger(SpriteRenderer tile, Color colour, float timeOrder)
     {
         yield return new WaitForSeconds(timeOrder);
-        tile.DOColor(colour,0.5f);
+        if (colour == currentNodeColour)
+            tile.DOColor(colour, 0.001f);
+        tile.DOColor(colour,0.2f);
     }
 
     void RetracePath (Node startNode, Node endNode)
@@ -191,16 +199,15 @@ public class Pathfinding : MonoBehaviour
 
     int GetDistance(Node nodeA, Node nodeB)
     {
+        int penalty = 0;
+
+        
         int dstX = (int)Mathf.Abs(nodeA.hexTileCorrespondant.x - nodeB.hexTileCorrespondant.x);
         int dstY = (int)Mathf.Abs(nodeA.hexTileCorrespondant.y - nodeB.hexTileCorrespondant.y);
 
-        if ((float)dstY/2 > (float)dstX)
-        {
-            return dstY;
-        }
-        else
-        {
-            return (int)(dstY + (dstX - Mathf.Floor(dstY/2)));
-        }
+        if ((nodeA.hexTileCorrespondant.y % 2 == 0 && nodeB.hexTileCorrespondant.y % 2 != 0 && (nodeA.hexTileCorrespondant.x < nodeB.hexTileCorrespondant.x)) || (nodeB.hexTileCorrespondant.y % 2 == 0 && nodeA.hexTileCorrespondant.y % 2 != 0 && (nodeB.hexTileCorrespondant.x < nodeA.hexTileCorrespondant.x)))
+            penalty = 1;
+
+        return (int)Mathf.Max(dstY, dstX + Mathf.Floor(dstY/2) + penalty);
     }
 }

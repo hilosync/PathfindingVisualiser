@@ -69,7 +69,7 @@ public class HexGrid : MonoBehaviour
     public List<Node> GetNeighbours(Node node)
     {
         List<Node> neighbours = new List<Node>();
-
+        
         for (int x = -1; x <= 1; x++)
         {
             for (int y = -1; y <= 1; y++)
@@ -82,10 +82,11 @@ public class HexGrid : MonoBehaviour
                 int checkX = node.gridX + x;
                 int checkY = node.gridY + y;
 
-                if((checkY % 2 != 0 && x == 1 && y == 1) || (checkY % 2 != 0 && x == 1 && y == -1) || (checkY % 2 == 0 && x == -1 && y == 1) || (checkY % 2 == 0 && x == -1 && y == -1))
-                {
+                if ((node.gridY % 2 == 0 && x == 1 && y == 1) || (node.gridY % 2 == 0 && x == 1 && y == -1))
                     continue;
-                }
+
+                if ((node.gridY % 2 != 0 && x == -1 && y == 1) || (node.gridY % 2 != 0 && x == -1 && y == -1))
+                    continue;
 
                 if (checkX >= 0 && checkX < width && checkY >= 0 && checkY < height)
                 {
