@@ -14,10 +14,15 @@ public class DragEndNode : MonoBehaviour
     {
 
     }
-    private void Start() 
+    private void Start()
+    {
+        PutInEndPosition();
+    }
+
+    public void PutInEndPosition()
     {
         startingNode = GameObject.Find("19 6");
-        latestTileSnappedOnEnd = startingNode.transform.position;    
+        latestTileSnappedOnEnd = startingNode.transform.position;
     }
 
     void OnMouseDrag() 

@@ -7,13 +7,9 @@ using DG.Tweening;
 
 public class Pathfinding : MonoBehaviour
 {
-
-    GameObject tutorialCanvas;
     public Button Visualise, Reset;
 
     bool startButtonPressed = false;
-
-    public bool sceneReset;
 
     float timeOrder = 0.2f;
 
@@ -58,7 +54,6 @@ public class Pathfinding : MonoBehaviour
 
     private void Update() 
     {
-        Debug.Log(sceneReset);
 
         if (startButtonPressed)
         {
@@ -96,9 +91,7 @@ public class Pathfinding : MonoBehaviour
 
     void ResetGame()
     {
-        sceneReset = true;
         SceneManager.LoadScene(scene.name);
-        sceneReset = true;
     }
 
 

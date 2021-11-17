@@ -115,8 +115,10 @@ public class HexGrid : MonoBehaviour
         if (value == 2)
         {
             gridArray[startNodePreviousX, startNodePreviousY] = 0;
+            nodeGrid[startNodePreviousX, startNodePreviousY].valueType = 0;
             //debugTextArray[startNodePreviousX, startNodePreviousY].text = gridArray[startNodePreviousX, startNodePreviousY].ToString();  
             gridArray[x, y] = value;
+            nodeGrid[x, y].valueType = value;
             //debugTextArray[x, y].text = gridArray[x, y].ToString();
             startNodePreviousX = x;
             startNodePreviousY = y;
@@ -126,8 +128,10 @@ public class HexGrid : MonoBehaviour
         if (value == 3)
         {
             gridArray[endNodePreviousX, endNodePreviousY] = 0;
+            nodeGrid[endNodePreviousX, endNodePreviousY].valueType = 0;
             //debugTextArray[endNodePreviousX, endNodePreviousY].text = gridArray[endNodePreviousX, endNodePreviousY].ToString();
             gridArray[x, y] = value;
+            nodeGrid[x, y].valueType = value;
             //debugTextArray[x, y].text = gridArray[x, y].ToString();
             endNodePreviousX = x;
             endNodePreviousY = y;
@@ -136,6 +140,7 @@ public class HexGrid : MonoBehaviour
         else
         {
             gridArray[x, y] = value;
+            nodeGrid[x, y].valueType = value;
             //debugTextArray[x, y].text = gridArray[x, y].ToString();
             nodeGrid[x,y] = new Node(value, new Vector2(x,y));
         }
